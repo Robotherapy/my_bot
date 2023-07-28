@@ -33,9 +33,13 @@ def generate_launch_description():
     # Launch!
     return LaunchDescription([
         DeclareLaunchArgument(
-            'use_sim_time',
+        'use_sim_time',
             default_value='false',
             description='Use sim time if true'),
+        DeclareLaunchArgument(
+            'use_ros2_control',
+            default_value='true',
+            description='Use ros2_control if true'),
 
         node_robot_state_publisher
     ])
