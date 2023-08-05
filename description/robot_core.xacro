@@ -4,19 +4,19 @@
     <xacro:include filename="inertial_macros.xacro"/>
 
 
-    <xacro:property name="chassis_length" value="0.335"/>
-    <xacro:property name="chassis_width" value="0.265"/>
-    <xacro:property name="chassis_height" value="0.138"/>
-    <xacro:property name="chassis_mass" value="1.0"/>
-    <xacro:property name="wheel_radius" value="0.033"/>
-    <xacro:property name="wheel_thickness" value="0.026"/>
-    <xacro:property name="wheel_mass" value="0.05"/>
-    <xacro:property name="wheel_offset_x" value="0.226"/>
-    <xacro:property name="wheel_offset_y" value="0.1485"/>
-    <xacro:property name="wheel_offset_z" value="0.01"/>
-    <xacro:property name="caster_wheel_radius" value="0.01"/>
-    <xacro:property name="caster_wheel_mass" value="0.01"/>
-    <xacro:property name="caster_wheel_offset_x" value="0.075"/>
+    <xacro:property name="chassis_length" value="1.105"/>
+    <xacro:property name="chassis_width" value="1.103"/>
+    <xacro:property name="chassis_height" value="0.19"/>
+    <xacro:property name="chassis_mass" value="17.0"/>
+    <xacro:property name="wheel_radius" value="0.085"/>
+    <xacro:property name="wheel_thickness" value="0.05"/>
+    <xacro:property name="wheel_mass" value="0.5"/>
+    <xacro:property name="wheel_offset_x" value="0.5525"/>
+    <xacro:property name="wheel_offset_y" value="0.551"/>
+    <xacro:property name="wheel_offset_z" value="0.062"/>
+    <xacro:property name="caster_wheel_radius" value="0.085"/>
+    <xacro:property name="caster_wheel_mass" value="0.5"/>
+    <xacro:property name="caster_wheel_offset_x" value="0.1"/>
     <xacro:property name="caster_wheel_offset_z" value="${wheel_offset_z - wheel_radius + caster_wheel_radius}"/>
 
     <material name="white">
@@ -152,7 +152,7 @@
     </gazebo>
 
 
-    <!-- CASTER WHEEL LINK -->
+    <!-- CASTER FRONT WHEEL LINK -->
 
     <joint name="caster_wheel_joint" type="fixed">
         <parent link="chassis"/>
@@ -179,6 +179,38 @@
     </link>
 
     <gazebo reference="caster_wheel">
+        <material>Gazebo/White</material>
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
+
+    <!-- CASTER BACK WHEEL LINK -->
+
+    <joint name="caster_back_wheel_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="caster_back_wheel"/>
+        <origin xyz="${0.90+caster_wheel_offset_x} 0 ${caster_wheel_offset_z}"/>
+    </joint>
+
+
+    <link name="caster_back_wheel">
+        <visual>
+            <geometry>
+                <sphere radius="${caster_wheel_radius}"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="${caster_wheel_radius}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_sphere mass="${caster_wheel_mass}" radius="${caster_wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_sphere>
+    </link>
+
+    <gazebo reference="caster_back_wheel">
         <material>Gazebo/White</material>
         <mu1 value="0.001"/>
         <mu2 value="0.001"/>
